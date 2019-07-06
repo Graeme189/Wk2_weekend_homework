@@ -1,6 +1,6 @@
 class Room
 
-  attr_reader :room, :songs, :guests, :capacity
+  attr_reader :room, :songs, :guests, :capacity, :entry_fee
 
   def initialize(room, capacity, entry_fee)
     @room = room
@@ -30,10 +30,26 @@ class Room
     return @songs.count
   end
 
+  def under_capacity
+    if @guests.count <= capacity
+    return "You can come in!"
+  end
+  end
+
   def over_capacity
     if @guests.count > capacity
       return "This room is full"
     end
   end
+
+def enough_funds
+  for guest in @guests
+    if guest.cash >= entry_fee
+      return "Welcome!"
+    else
+      return "Bugger off skinto"
+    end
+  end
+end
 
 end

@@ -48,10 +48,24 @@ class TestRoom < MiniTest::Test
     assert_equal(2, @room1.count_songs)
   end
 
+  def test_room_under_capacity
+    @room1.add_guest(@guest1)
+    assert_equal("You can come in!", @room1.under_capacity)
+  end
+
   def test_room_over_capacity
     @room1.add_guest(@guest1)
     @room1.add_guest(@guest2)
     assert_equal("This room is full", @room1.over_capacity)
   end
 
+def test_customer_has_money
+  @room1.add_guest(@guest1)
+  assert_equal("Welcome!", @room1.enough_funds)
+end
+
+def test_customer_has_no_money
+  @room1.add_guest(@guest2)
+  assert_equal("Bugger off skinto", @room1.enough_funds)
+end
 end
