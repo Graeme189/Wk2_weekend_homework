@@ -9,31 +9,49 @@ require_relative('../guests')
 class TestRoom < MiniTest::Test
 
   def setup
-  @song1 = Song.new('Punk Song')
-  @song2 = Song.new('Jazz Song')
-  @song3 = Song.new('EDM Song')
 
-  @songs = [@song1, @song2, @song3]
+    @room1 = Room.new('Curryoake', 1, 8)
 
-  @guest1 = Guests.new('Dixie')
-  @guest2 = Guests.new('Lola')
+    @guest1 = Guests.new('Lola', 10)
+    @guest2 = Guests.new('Dixie', 5)
 
-  @guests = [@guest1, @guest2]
-
-  @room1 = Room.new('Room One')
+    @song1 = Song.new('Jazz')
+    @song2 = Song.new('Blues')
 
   end
 
   def test_room_name
-    assert_equal('Room One', @room1.room)
+    assert_equal('Curryoake', @room1.room)
   end
 
-  def test_song_name
-    assert_equal('Punk Song', @songs[0].song)
+  def test_guest_count
+    @room1.count_guests
+    assert_equal(0, @room1.count_guests)
   end
 
-  def test_guest_name
-    assert_equal('Lola', @guests[1].guest)
+  def test_add_guest
+    @room1.add_guest(@guest1)
+    @room1.add_guest(@guest2)
+    assert_equal(2, @room1.count_guests)
+  end
+
+  def test_remove_guest
+    @room1.add_guest(@guest1)
+    @room1.add_guest(@guest2)
+    @room1.remove_guest(@guest1)
+    assert_equal(1, @room1.count_guests)
+  end
+
+  def test_add_song_to_room
+    @room1.add_song(@song1)
+    @room1.add_song(@song2)
+    assert_equal(2, @room1.count_songs)
+  end
+
+  def test_room_over_capacity
+    @room1.add_guest(@guest1)
+    @room1.add_guest(@guest2)
+    assert_equal("This room is full", @room1.over_capacity)
   end
 
 end
