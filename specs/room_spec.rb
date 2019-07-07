@@ -4,6 +4,7 @@ require('minitest/rg')
 require_relative('../room')
 require_relative('../song')
 require_relative('../guests')
+require_relative('../tab')
 
 
 class TestRoom < MiniTest::Test
@@ -12,8 +13,8 @@ class TestRoom < MiniTest::Test
 
     @room1 = Room.new('Curryoake', 1, 8)
 
-    @guest1 = Guests.new('Lola', 10)
-    @guest2 = Guests.new('Dixie', 5)
+    @guest1 = Guests.new('Lola', 100, 'Jazz')
+    @guest2 = Guests.new('Dixie', 5, 'Blues')
 
     @song1 = Song.new('Jazz')
     @song2 = Song.new('Blues')
@@ -59,13 +60,14 @@ class TestRoom < MiniTest::Test
     assert_equal("This room is full", @room1.over_capacity)
   end
 
-def test_customer_has_money
-  @room1.add_guest(@guest1)
-  assert_equal("Welcome!", @room1.enough_funds)
-end
+  def test_customer_has_money
+    @room1.add_guest(@guest1)
+    assert_equal("Welcome!", @room1.enough_funds)
+  end
 
-def test_customer_has_no_money
-  @room1.add_guest(@guest2)
-  assert_equal("Bugger off skinto", @room1.enough_funds)
-end
+  def test_customer_has_no_money
+    @room1.add_guest(@guest2)
+    assert_equal("Get lost", @room1.enough_funds)
+  end
+
 end
