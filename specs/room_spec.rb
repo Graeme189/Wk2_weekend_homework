@@ -74,7 +74,7 @@ class TestRoom < MiniTest::Test
     assert_equal('Get lost', @room1.enough_funds)
   end
 
-  def test_favourite_song_not_playing
+  def test_favourite_song_playing
     assert_equal('Woohoo!', @guest1.favourite_song_playing(@song1.song))
   end
 
