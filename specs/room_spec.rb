@@ -11,13 +11,15 @@ class TestRoom < MiniTest::Test
 
   def setup
 
-    @room1 = Room.new('Curryoake', 1, 8)
+    @room1 = Room.new('Curryoake', 1.00, 8.00)
 
-    @guest1 = Guests.new('Lola', 100, 'Jazz')
-    @guest2 = Guests.new('Dixie', 5, 'Blues')
+    @guest1 = Guests.new('Lola', 100.00, 'Jazz')
+    @guest2 = Guests.new('Dixie', 5.00, 'Blues')
 
     @song1 = Song.new('Jazz')
     @song2 = Song.new('Blues')
+
+    @tab1 = Tab.new('Lola', 0.00, 0.00)
 
   end
 
@@ -51,23 +53,34 @@ class TestRoom < MiniTest::Test
 
   def test_room_under_capacity
     @room1.add_guest(@guest1)
-    assert_equal("You can come in!", @room1.under_capacity)
+    assert_equal('You can come in!', @room1.under_capacity)
   end
 
   def test_room_over_capacity
     @room1.add_guest(@guest1)
     @room1.add_guest(@guest2)
-    assert_equal("This room is full", @room1.over_capacity)
+    assert_equal('This room is full', @room1.over_capacity)
   end
 
   def test_customer_has_money
     @room1.add_guest(@guest1)
-    assert_equal("Welcome!", @room1.enough_funds)
+    @tab1.add_to_tab(@room1.entry_fee)
+    assert_equal('Welcome!', @room1.enough_funds)
+    assert_equal(8.00, @tab1.tab)
   end
 
   def test_customer_has_no_money
     @room1.add_guest(@guest2)
-    assert_equal("Get lost", @room1.enough_funds)
+    assert_equal('Get lost', @room1.enough_funds)
   end
+
+  def test_favourite_song_not_playing
+    assert_equal('Woohoo!', @guest1.favourite_song_playing(@song1.song))
+  end
+
+  def test_favourite_song_not_playing
+    assert_equal('Not so fond of this one', @guest2.favourite_song_playing(@song1.song))
+  end
+
 
 end
